@@ -35,3 +35,4 @@ relative/path/to/dir/anotherfile
 **/.DS_Store
 
 **/citibike.json
+**/embedded.db
