@@ -36,5 +36,6 @@ relative/path/to/dir/anotherfile
 
 # Ignore data created by code
 **/*.json
+**/*.csv
 **/embedded.db
 **/*.png
