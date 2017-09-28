@@ -19,4 +19,6 @@ DB caching
 10. Histogram
 11. Box plots
 12. Probability
-13. Evaluation
+13. Evaluate continuous data
+14. Evaluate categorical data
+15. Train-test split
