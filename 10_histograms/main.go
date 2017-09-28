@@ -61,6 +61,7 @@ func main() {
 				return
 			}
 			log.Printf("Open %s\n", name)
+
 			open.Run(name)
 
 		}
