@@ -19,3 +19,4 @@ DB caching
 10. Histogram
 11. Box plots
 12. Probability
+13. Evaluation
