@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/kniren/gota/dataframe"
+	"github.com/skratchdot/open-golang/open"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
 	"gonum.org/v1/plot/vg"
@@ -54,10 +55,14 @@ func main() {
 			p.Add(h)
 
 			// Save plot to png file
-			if err := p.Save(4*vg.Inch, 4*vg.Inch, colName+".png"); err != nil {
+			name := colName + ".png"
+			if err := p.Save(4*vg.Inch, 4*vg.Inch, name); err != nil {
 				log.Printf("Error saving file %s\n", err.Error())
 				return
 			}
+			log.Printf("Open %s\n", name)
+			open.Run(name)
+
 		}
 	}
 }

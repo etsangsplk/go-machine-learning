@@ -17,3 +17,4 @@ DB caching
 8. Operations on matrices
 9. Statistics
 10. Histogram
+11. Box plots
