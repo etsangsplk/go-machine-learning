@@ -7,6 +7,8 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+// Example of using Bolt DB to cache data on local disk.
+
 func main() {
 	db, err := bolt.Open("embedded.db", 0600, nil)
 	if err != nil {

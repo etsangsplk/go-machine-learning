@@ -16,3 +16,4 @@ DB caching
 7. Matrices
 8. Operations on matrices
 9. Statistics
+10. Histogram

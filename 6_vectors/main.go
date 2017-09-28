@@ -6,6 +6,8 @@ import (
 	"gonum.org/v1/gonum/floats"
 )
 
+// Use gonum.org/v1/gonum/floats or gonum.org/v1/gonum/math to handle vectors.
+
 func main() {
 	vectorA := []float64{11.0, 5.2, -1.3}
 	vectorB := []float64{-7.2, 4.2, 5.1}

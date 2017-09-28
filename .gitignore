@@ -34,5 +34,7 @@ relative/path/to/dir/anotherfile
 
 **/.DS_Store
 
-**/citibike.json
+# Ignore data created by code
+**/*.json
 **/embedded.db
+**/*.png

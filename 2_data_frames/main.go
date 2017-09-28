@@ -8,6 +8,8 @@ import (
 	"github.com/kniren/gota/dataframe"
 )
 
+// Example of handling CSV data with data frames.
+
 func main() {
 	iris, err := os.Open("../data/labeled_iris.csv")
 	if err != nil {
