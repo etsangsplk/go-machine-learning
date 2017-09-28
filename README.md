@@ -18,3 +18,4 @@ DB caching
 9. Statistics
 10. Histogram
 11. Box plots
+12. Probability
