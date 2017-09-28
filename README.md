@@ -15,3 +15,4 @@ DB caching
 6. Vectors
 7. Matrices
 8. Operations on matrices
+9. Statistics
