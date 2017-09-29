@@ -9,7 +9,9 @@ import (
 )
 
 // Do train-test split
-// Todo: Create reusable package from the code?
+// Train test split is a part of the golearn package.
+// Todo: Check it out!
+// Todo: Create reusable package from this code?
 
 func main() {
 	f, err := os.Open("../data/diabetes.csv")

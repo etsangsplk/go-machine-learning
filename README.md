@@ -22,3 +22,4 @@ DB caching
 13. Evaluate continuous data
 14. Evaluate categorical data
 15. Train-test split
+16. Linear regression
