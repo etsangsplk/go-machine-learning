@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 
@@ -44,7 +45,61 @@ func main() {
 		return
 	}
 
+	if err := testModel(); err != nil {
+		return
+	}
+
 	fmt.Println("Done!")
+}
+
+func testModel() error {
+	f, err := os.Open("test.csv")
+	if err != nil {
+		log.Printf("Error opening test file %s\n", err.Error())
+		return err
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	reader.FieldsPerRecord = 4
+	testData, err := reader.ReadAll()
+	if err != nil {
+		log.Printf("Error reading test data %s\n", err.Error())
+		return err
+	}
+
+	// Loop over data and validate with Mean Absolute Error
+	var mAE float64
+	for i, record := range testData {
+		// Skip header
+		if i == 0 {
+			continue
+		}
+
+		// Parse observed y (Sales)
+		yObs, err := strconv.ParseFloat(record[3], 64)
+		if err != nil {
+			log.Printf("Error parsing y %s\n", err.Error())
+			return err
+		}
+
+		// Parse X (TV value)
+		tvVal, err := strconv.ParseFloat(record[0], 64)
+		if err != nil {
+			log.Printf("Error parsing X %s\n", err.Error())
+			return err
+		}
+
+		// Predict Y
+		var r regression.Regression
+		yPred, err := r.Predict([]float64{tvVal})
+
+		// Add to MAE
+		mAE += math.Abs(yObs-yPred) / float64(len(testData))
+	}
+	fmt.Printf("MAE = %f0.2\n\n", mAE)
+
+	return nil
 }
 
 func trainModel() error {
