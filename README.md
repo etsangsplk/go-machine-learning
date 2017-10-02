@@ -23,3 +23,4 @@ DB caching
 14. Evaluate categorical data
 15. Train-test split
 16. Linear regression
+17. Multiple linear regression

@@ -49,7 +49,72 @@ func main() {
 		return
 	}
 
+	if err := visualizeRegression(df, "TV", "Sales"); err != nil {
+		return
+	}
+
 	fmt.Println("Done!")
+}
+
+func visualizeRegression(df dataframe.DataFrame, xCol string, yCol string) error {
+	// Extract traget columns
+	yVals := df.Col(yCol).Float()
+
+	// Pts will hold the observed values for plotting
+	pts := make(plotter.XYs, df.Nrow())
+
+	// ptsPred will hold the predicted values for plotting
+	ptsPred := make(plotter.XYs, df.Nrow())
+
+	// Fill plots with data
+	for i, fv := range df.Col(xCol).Float() {
+		pts[i].X = fv
+		pts[i].Y = yVals[i]
+		ptsPred[i].X = fv
+		ptsPred[i].Y = predict(fv)
+	}
+
+	// Create plot
+	p, err := plot.New()
+	if err != nil {
+		log.Printf("Error creating plot %s\n", err.Error())
+		return err
+	}
+
+	p.X.Label.Text = "TV"
+	p.Y.Label.Text = "Sales"
+
+	p.Add(plotter.NewGrid())
+
+	// Add scatter plot points for observations
+	s, err := plotter.NewScatter(pts)
+	if err != nil {
+		log.Printf("Error adding scatter plot %s\n", err.Error())
+		return err
+	}
+	s.GlyphStyle.Radius = vg.Points(3)
+
+	// Add line plot for predictions
+	l, err := plotter.NewLine(ptsPred)
+	if err != nil {
+		log.Printf("Error adding line plot %s\n", err.Error())
+		return err
+	}
+
+	l.LineStyle.Width = vg.Points(1)
+	l.LineStyle.Dashes = []vg.Length{vg.Points(5), vg.Points(5)}
+
+	// Save to png
+	p.Add(s, l)
+	if err := p.Save(4*vg.Inch, 4*vg.Inch, "regrission.png"); err != nil {
+		log.Printf("Error saving plot %s", err.Error())
+	}
+
+	return nil
+}
+
+func predict(tv float64) float64 {
+	return 7.07 + tv*0.05
 }
 
 func testModel() error {
@@ -147,6 +212,9 @@ func trainModel() error {
 		r.Run()
 	}
 	fmt.Printf("\nRegression formula: \n%v\n", r.Formula)
+	fmt.Printf("Coeff(0); %0.2f\n", r.Coeff(0))
+	fmt.Printf("Coeff(1); %0.2f\n", r.Coeff(1))
+
 	return nil
 }
 
@@ -208,7 +276,7 @@ func trainTestSplit(df dataframe.DataFrame) error {
 
 // Scatterplot is a way of identifying the dependant variables
 func creatScatterplots(df dataframe.DataFrame) error {
-	// Ectract the target column
+	// Extract the target column
 	yVals := df.Col("Sales").Float()
 	for _, name := range df.Names() {
 		// pts holds data to be plotted
