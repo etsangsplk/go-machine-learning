@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 
@@ -30,6 +31,59 @@ func main() {
 		log.Printf("Error training model %s\n", err.Error())
 	}
 
+	if err := testModel(colsPos); err != nil {
+		log.Printf(err.Error())
+	}
+}
+
+func testModel(colsPos []int) error {
+	f, err := os.Open("test.csv")
+	if err != nil {
+		log.Printf("Error opening CSV %s\n", err.Error())
+		return err
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	reader.FieldsPerRecord = 4
+	td, err := reader.ReadAll()
+	if err != nil {
+		log.Printf("Error reading csv file %s\n", err.Error())
+		return err
+	}
+
+	var mAE float64
+	for i, record := range td {
+		if i == 0 {
+			continue
+		}
+
+		yObs, err := strconv.ParseFloat(record[3], 64)
+		if err != nil {
+			log.Printf("Error parsing to float %s\n", err.Error())
+			return err
+		}
+
+		var xObs []float64
+		for _, col := range colsPos {
+			fVal, err := strconv.ParseFloat(record[col], 64)
+			if err != nil {
+				log.Printf("Error parsing observed X values %s\n", err.Error())
+				return err
+			}
+			xObs = append(xObs, fVal)
+		}
+
+		yPred, err := r.Predict(xObs)
+		if err != nil {
+			log.Printf("Error making prediction%s\n", err.Error())
+			return err
+		}
+
+		mAE += math.Abs(yObs-yPred) / float64(len(td))
+	}
+
+	return nil
 }
 
 func trainModel(yCol string, xCols []string, xPos []int, yPos int) error {
@@ -82,6 +136,7 @@ func trainModel(yCol string, xCols []string, xPos []int, yPos int) error {
 
 	r.Run()
 	fmt.Printf("Regression formula %s\n", r.Formula)
+	// Regression formula Predicted = 2.93 + TV*0.05 + Radio*0.18
 
 	return nil
 }
