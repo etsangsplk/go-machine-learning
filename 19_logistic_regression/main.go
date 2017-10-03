@@ -23,23 +23,23 @@ const (
 // Goal: Determine if for a given credit score it is
 // possible to get a loan with an interest rate below 12%.
 func main() {
-	// if err := cleanData(); err != nil {
-	// 	return
-	// }
+	if err := cleanData(); err != nil {
+		return
+	}
 
-	// df, err := golum.GetDFFromCSV("clean_loan_data.csv", nil)
-	// if err != nil {
-	// 	log.Printf("Error opening CSV file %s\n", err.Error())
-	// 	return
-	// }
+	df, err := golum.GetDFFromCSV("clean_loan_data.csv", nil)
+	if err != nil {
+		log.Printf("Error opening CSV file %s\n", err.Error())
+		return
+	}
 
-	// 	if err := createHistograms(&df); err != nil {
-	// 		return
-	// 	}
+	if err := createHistograms(&df); err != nil {
+		return
+	}
 
-	// 	if err := getStatistics(&df); err != nil {
-	// 		return
-	// 	}
+	if err := getStatistics(&df); err != nil {
+		return
+	}
 
 	if err := split("clean_loan_data.csv"); err != nil {
 		return
