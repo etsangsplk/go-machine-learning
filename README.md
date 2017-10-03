@@ -25,3 +25,4 @@ DB caching
 16. Linear regression
 17. Multiple linear regression
 18. Ridge regression
+19. Logistic regression
