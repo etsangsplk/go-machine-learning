@@ -27,16 +27,32 @@ func main() {
 	// 	return
 	// }
 
-	df, err := golum.GetDFFromCSV("clean_loan_data.csv", nil)
+	// df, err := golum.GetDFFromCSV("clean_loan_data.csv", nil)
+	// if err != nil {
+	// 	log.Printf("Error opening CSV file %s\n", err.Error())
+	// 	return
+	// }
+
+	// 	if err := createHistograms(&df); err != nil {
+	// 		return
+	// 	}
+
+	// 	if err := getStatistics(&df); err != nil {
+	// 		return
+	// 	}
+
+	if err := split("clean_loan_data.csv"); err != nil {
+		return
+	}
+}
+
+func split(file string) error {
+	_, _, err := golum.TrainTestSplit(file, 0.3)
 	if err != nil {
-		log.Printf("Error opening CSV file %s\n", err.Error())
-		return
+		return err
 	}
 
-	if err := createHistograms(&df); err != nil {
-		return
-	}
-
+	return nil
 }
 
 func getStatistics(df *dataframe.DataFrame) error {
@@ -45,15 +61,15 @@ func getStatistics(df *dataframe.DataFrame) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%s", s.)
 
+	golum.PrintStats(s[0])
 
 	return nil
 }
 
 func createHistograms(df *dataframe.DataFrame) error {
 	// Create histogram for each column in the data set
-	if err := golum.CreateHistograms(&df, nil); err != nil {
+	if err := golum.CreateHistograms(df, nil); err != nil {
 		return err
 	}
 
